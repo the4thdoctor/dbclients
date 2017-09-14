@@ -72,7 +72,8 @@ with facts as (
 select fact_num, cl_nom, fact_date, lag( fact_date ) over (partition by cl_nom order by fact_date ) dprev from factures
 )
 select fact_num, prest_id, prest_intitule,
-       case when prest_intitule = 'Maintenance' then 600 when prest_intitule = 'Consultation' then 700 else 400 end as montant, 1
+       (case when prest_intitule = 'Maintenance' then 600
+             when prest_intitule = 'Consultation' then 700 else 400 end) - ( (current_date - prest_date_fin::date) / 250) as montant, 1
     from prestations join facts on prest_date_fin > dprev and prest_date_fin < fact_date and facts.cl_nom = prestations.cl_nom
 ;
 
