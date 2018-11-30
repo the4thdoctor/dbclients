@@ -83,7 +83,7 @@ select inv_num, job_id, job_description,
              when job_description = 'Consultation' then 700 else 400 end) - ( (current_date - job_date_end::date) / 250) as amount, 1
     from jobs join invoices on job_date_end > dprev and job_date_end < inv_date and invoices.cus_name = jobs.cus_name
 ;
-/*
+
 -- REFRESH MATERIALIZED VIEW facturation ;
-*/
+
 commit;
