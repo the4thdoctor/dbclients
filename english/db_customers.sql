@@ -53,28 +53,28 @@ CREATE TABLE invoice_details (
 -- Populate the database
 \i db_customers_data.sql
 
-/*
+
 CREATE OR REPLACE VIEW invoiceview AS
 	SELECT
-		f.fact_num,
-		f.fact_date,
-		f.fact_date_paiement,
-		f.cl_nom,
-		sum(l.lf_montant * l.lf_qte) as montant_HT -- ,
+		i.inv_num,
+		i.inv_date,
+		i.inv_date_paid,
+		i.cus_name,
+		sum(d.invdet_amount * d.invdet_quantity) as amount_bt -- ,
 		FROM
-			factures f
-			JOIN lignes_factures l USING ( fact_num )
-			LEFT JOIN prestations p USING (prest_id)
+			invoices i
+			JOIN invoice_details d USING ( inv_num )
+			LEFT JOIN jobs j USING (job_id)
     GROUP BY
-			f.fact_num,
-			f.fact_date,
-			f.fact_date_paiement,
-			f.cl_nom
+			i.inv_num,
+			i.inv_date,
+			i.inv_date_paid,
+			i.cus_name
 		ORDER BY
-			substring(fact_num from '..$') ASC
+			substring(inv_num from '..$') ASC
 		;
 
-
+/*
 CREATE INDEX prest_date_idx ON prestations ( prest_date_debut , prest_date_fin  )  ;
 
 CREATE INDEX prest_date_deb_idx ON prestations ( prest_date_debut ) WHERE prest_confirm ;
