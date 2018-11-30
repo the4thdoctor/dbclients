@@ -74,11 +74,11 @@ CREATE OR REPLACE VIEW invoiceview AS
 			substring(inv_num from '..$') ASC
 		;
 
+
+CREATE INDEX job_date_idx ON jobs ( job_date_start,job_date_end)  ;
+
+CREATE INDEX job_date_start_idx ON jobs ( job_date_start ) WHERE job_confirm;
 /*
-CREATE INDEX prest_date_idx ON prestations ( prest_date_debut , prest_date_fin  )  ;
-
-CREATE INDEX prest_date_deb_idx ON prestations ( prest_date_debut ) WHERE prest_confirm ;
-
 CREATE MATERIALIZED VIEW facturation AS
 	SELECT f.fact_num, f.fact_date, f.fact_date_paiement, f.cl_nom,
 		sum(l.lf_montant * l.lf_qte) as montant_HT -- ,
